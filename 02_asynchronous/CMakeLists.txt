@@ -1,9 +1,9 @@
 cmake_minimum_required(VERSION 3.15)
-project(async-tcp-client)
+project(boost-asio-tutorial)
 
 find_package(Boost REQUIRED)
 if(NOT Boost_FOUND)
-    message(FATAL "Boost libraries not found")
+    message(FATAL "C++ Boost libraries installed")
 endif()
 
 add_executable(app main.cc)
