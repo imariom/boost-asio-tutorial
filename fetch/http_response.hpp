@@ -1,0 +1,17 @@
+#pragma once
+#ifndef BRO_HTTP_RESPONSE_HPP
+#define BRO_HTTP_RESPONSE_HPP
+
+#include <string>
+
+namespace bro {
+
+struct http_response
+{
+    std::string headers;
+    std::string body;
+};
+    
+} // namespace bro
+
+#endif // BRO_HTTP_RESPONSE_HPP
