@@ -4,7 +4,7 @@
 
 #include <string>
 
-namespace bro {
+namespace restpp {
 
 struct http_response
 {

@@ -10,9 +10,9 @@ set(RESTPP_VERSION_REVISION 0)
 
 set(RESTPP_EXPORT_DIR cmake/restpp CACHE STRING "Directory to install CMake config files.")
 set(RESTPP_INSTALL_HEADERS OFF CACHE BOOL "Install header files.")
-set(RESTPP_INSTALL OFF CACHE BOOL "Add install commands.")
+set(RESTPP_INSTALL ON CACHE BOOL "Add install commands.")
 set(BUILD_EXAMPLES ON)
-set(BUILD_TESTS OFF)
+set(BUILD_TESTS ON)
 
 find_package(Boost REQUIRED)
 if(NOT Boost_FOUND)
