@@ -29,7 +29,7 @@ public:
      * @param response The HTTP response object.
      * @param extracted Whether headers have been extracted.
      */
-    receive_completion_handler(FetchHandler&& handler,
+    receive_completion_handler(fetch_handler_t&& handler,
         std::shared_ptr<boost::asio::ip::tcp::socket> socket,
         std::shared_ptr<http_response> response,
         bool extracted = false)
@@ -98,7 +98,7 @@ public:
     }
 
 private:
-    FetchHandler handler_;
+    fetch_handler_t handler_;
     std::shared_ptr<boost::asio::ip::tcp::socket> socket_;
     std::shared_ptr<http_response> response_;
     bool headers_extracted_;
@@ -121,7 +121,7 @@ public:
      * @param handler The handler to invoke on completion.
      * @param socket The socket used for communication.
      */
-    send_completion_handler(FetchHandler&& handler,
+    send_completion_handler(fetch_handler_t&& handler,
         std::shared_ptr<boost::asio::ip::tcp::socket> socket)
         : handler_(std::move(handler)), socket_(socket),
             response_(std::make_shared<http_response>())
@@ -151,7 +151,7 @@ public:
     }
 
 private:
-    FetchHandler handler_;
+    fetch_handler_t handler_;
     std::shared_ptr<boost::asio::ip::tcp::socket> socket_;
     std::shared_ptr<http_response> response_;
 };
@@ -175,7 +175,7 @@ public:
      * @param host The host name.
      * @param path The request path.
      */
-    connect_completion_handler(FetchHandler&& handler,
+    connect_completion_handler(fetch_handler_t&& handler,
         std::shared_ptr<boost::asio::ip::tcp::socket> socket,
         std::shared_ptr<std::string> host,
         std::shared_ptr<std::string> path)
@@ -215,7 +215,7 @@ public:
     }
 
 private:
-    FetchHandler handler_;
+    fetch_handler_t handler_;
     std::shared_ptr<boost::asio::ip::tcp::socket> socket_;
     std::shared_ptr<std::string> host_;
     std::shared_ptr<std::string> path_;
@@ -241,7 +241,7 @@ public:
      * @param path The request path.
      */
     resolve_completion_handler(
-        typename std::decay<FetchHandler>::type handler,
+        fetch_handler_t handler,
         std::shared_ptr<boost::asio::ip::tcp::resolver> resolver,
         std::shared_ptr<std::string> host,
         std::shared_ptr<std::string> path)
@@ -275,7 +275,7 @@ public:
     }
 
 private:
-    typename std::decay<FetchHandler>::type handler_;
+    fetch_handler_t handler_;
     std::shared_ptr<boost::asio::ip::tcp::resolver> resolver_;
     std::shared_ptr<std::string> host_;
     std::shared_ptr<std::string> path_;

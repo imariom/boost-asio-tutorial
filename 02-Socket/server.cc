@@ -3,8 +3,10 @@
 
 using boost::asio::ip::tcp;
 
-int main() {
-    try {
+int main()
+{
+    try
+    {
         boost::asio::io_context io_context;
 
         // Create a server endpoint (listening on port 12345)
@@ -31,7 +33,9 @@ int main() {
         char data[1024];
         size_t length = socket.read_some(boost::asio::buffer(data));
         std::cout << "Received from client: " << std::string(data, length) << std::endl;
-    } catch (std::exception& e) {
+    }
+    catch (std::exception& e)
+    {
         std::cerr << "Error: " << e.what() << std::endl;
     }
 

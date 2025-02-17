@@ -3,8 +3,10 @@
 
 using boost::asio::ip::tcp;
 
-int main() {
-    try {
+int main()
+{
+    try
+    {
         boost::asio::io_context io_context;
 
         // Create a client endpoint (connecting to the server's IP and port)
@@ -26,7 +28,9 @@ int main() {
         // Send a message to the server
         std::string message = "Hello from client!";
         boost::asio::write(socket, boost::asio::buffer(message));
-    } catch (std::exception& e) {
+    }
+    catch (std::exception& e)
+    {
         std::cerr << "Error: " << e.what() << std::endl;
     }
 
