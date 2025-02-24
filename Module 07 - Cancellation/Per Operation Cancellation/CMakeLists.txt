@@ -3,7 +3,7 @@ project(boost-asio-tutorial)
 
 find_package(Boost REQUIRED)
 if(NOT Boost_FOUND)
-    message(FATAL "C++ Boost libraries installed")
+    message(FATAL "C++ Boost libraries not installed")
 endif()
 
 add_executable(app main.cc)
