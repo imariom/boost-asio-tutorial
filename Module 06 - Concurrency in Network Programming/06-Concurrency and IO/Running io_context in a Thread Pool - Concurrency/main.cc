@@ -5,14 +5,17 @@
 
 using boost::asio::ip::tcp;
 
-void worker(boost::asio::io_context& io_context) {
+void worker(boost::asio::io_context& io_context)
+{
     std::cout << "Thread " << std::this_thread::get_id() << " started\n";
     io_context.run();
     std::cout << "Thread " << std::this_thread::get_id() << " finished\n";
 }
 
-int main() {
-    try {
+int main()
+{
+    try
+    {
         boost::asio::io_context io_context;
 
         // Create a work guard to keep the io_context running
@@ -35,10 +38,13 @@ int main() {
         io_context.stop();
 
         // Join the threads
-        for (auto& t : threads) {
+        for (auto& t : threads)
+        {
             t.join();
         }
-    } catch (std::exception& e) {
+    }
+    catch (std::exception& e)
+    {
         std::cerr << "Error: " << e.what() << std::endl;
     }
 
