@@ -1,26 +1,34 @@
 #include <iostream>
+
 #include <boost/asio.hpp>
 
-int main(int argc, char* argv[])
+int main(int argc, char** argv)
 {
-    // Get server port number from the command line arguments
-    if (argc < 3)
+    // Check command line arguments.
+    if (argc != 3)
     {
-        std::cerr << "Usage: client <server-ip-address> <port-number>\n";
-        return -1;
+        std::cerr <<
+            "Usage: client <server-ip-address> <port-number>\n" <<
+            "Example:\n" <<
+            "   client 182.242.224.3 43280\n";
+        return EXIT_FAILURE;
     }
-    std::string serverIPAddress = argv[1];
+
+    // Create an IP to represent the server IP address that the client
+    // is goint to connect to.
+    boost::asio::ip::address serverIPAddress =
+        boost::asio::ip::make_address(argv[1]);
+
+    // Get the server port number.
     std::size_t portNumber = std::atoi(argv[2]);
     
-    // Create an IPv4 address
-    boost::asio::ip::address ipAddress =
-        boost::asio::ip::make_address(serverIPAddress);
+    // Create a TCP endpoint in the provided IP and portNumber.
+    boost::asio::ip::tcp::endpoint serverEndpoint(
+        serverIPAddress, portNumber);
 
-    // Create a TCP endpoint for the server (listening on port 54321)
-    boost::asio::ip::tcp::endpoint serverEndpoint(ipAddress, portNumber);
-    std::cout << "Server endpoint: " << serverEndpoint << "\n";
+    std::cout << "Client can connect to: " << serverEndpoint << "\n";
 
     // ... the client can now use the serverEnpoint to connect to the server
 
-    return 0;
+    return EXIT_SUCCESS;
 }

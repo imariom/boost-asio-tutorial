@@ -1,25 +1,27 @@
 #include <iostream>
-#include <string>
 
 #include <boost/asio.hpp>
 
-int main(int argc, char* argv[])
+int main(int argc, char** argv)
 {
-    // Get server port number from the command line arguments
-    if (argc < 3)
+    // Check command line arguments.
+    if (argc != 3)
     {
-        std::cerr << "Usage: server <server-ip-address> <port-number>\n";
-        return -1;
+        std::cerr <<
+            "Usage: server <server-ip-address> <port-number>\n" <<
+            "Example:\n" <<
+            "   server 127.0.0.1 54321\n";
+        return EXIT_FAILURE;
     }
 
-    std::size_t portNumber = std::atoi(argv[1]);
-
-    // Create an IP to represent the server address
+    // Create an IP to represent the server IP address.
     boost::asio::ip::address ipAddress =
-        boost::asio::ip::make_address("127.0.0.1");
+        boost::asio::ip::make_address(argv[1]);
+
+    // Get the server port number.
+    std::size_t portNumber = std::atoi(argv[2]);
     
-    // Create a TCP endpoint for the server for all host IPv4 addresses
-    // in a provided portNumber.
+    // Create a TCP endpoint in the provided IP and portNumber.
     boost::asio::ip::tcp::endpoint endpoint(
         ipAddress, portNumber);
 
@@ -28,5 +30,5 @@ int main(int argc, char* argv[])
     // ... the endpoint can be used by the server to listen
     // for incomming connections.
 
-    return 0;
+    return EXIT_SUCCESS;
 }
