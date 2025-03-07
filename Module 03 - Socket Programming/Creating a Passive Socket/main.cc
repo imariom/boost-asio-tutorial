@@ -2,17 +2,19 @@
 
 #include <boost/asio.hpp>
 
-int main(int argc, char* argv[])
+int main(int argc, char** argv)
 {
-    // Get the server port number from the command line arguments
-    if (argc < 2)
+    // Check command line arguments.
+    if (argc != 2)
     {
-        std::cerr << "Usage: server <port-number>\n";
-        return -1;
+        std::cerr <<
+            "Usage: server <port-number>\n" <<
+            "Example:\n" <<
+            "   server 54321\n";
+        return EXIT_FAILURE;
     }
-    std::size_t portNumber = std::atoi(argv[2]);
 
-    // Create the I/O execution context
+    // Create the I/O execution context.
     boost::asio::io_context ioCtx;
     
     try
@@ -20,7 +22,7 @@ int main(int argc, char* argv[])
         // Create a server endpoint in all of the host IPv4 IP addresses
         // and a provided portNumber.
         boost::asio::ip::tcp::endpoint endpoint(
-            boost::asio::ip::tcp::v4(), portNumber);
+            boost::asio::ip::tcp::v4(), std::atoi(argv[1]));
 
         // Create an acceptor to listen for incoming connections.
         boost::asio::ip::tcp::acceptor acceptor(ioCtx, endpoint);
@@ -38,10 +40,11 @@ int main(int argc, char* argv[])
 
         // ... socket can now be used for I/O operations
     }
-    catch (std::exception& e)
+    catch (const std::exception& e)
     {
         std::cerr << "Error: " << e.what() << std::endl;
+        return EXIT_FAILURE;
     }
 
-    return 0;
+    return EXIT_SUCCESS;
 }
