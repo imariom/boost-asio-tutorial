@@ -4,45 +4,47 @@
 
 int main(int argc, char* argv[])
 {
-    // Get server IP address and port number from the command line arguments
-    if (argc < 3)
+    // Check command line arguments.
+    if (argc != 3)
     {
-        std::cerr << "Usage: client <server-ip-address> <port-number>\n";
-        return -1;
+        std::cerr <<
+            "Usage: client <server-ip-address> <port-number>\n" <<
+            "Example:\n" <<
+            "   client 127.0.0.1 54321\n";
+        return EXIT_FAILURE;
     }
-    std::string serverIPAddress = argv[1];
-    std::size_t portNumber = std::atoi(argv[2]);
-
+    
     // Create the I/O execution context
-    boost::asio::io_context io_context;
+    boost::asio::io_context ioCtx;
     
     try
     {
         // Create an endpoint that represent the remote server
-        boost::asio::ip::tcp::endpoint endpoint(
-            boost::asio::ip::make_address(serverIPAddress), portNumber);
+        boost::asio::ip::tcp::endpoint serverEndpoint(
+            boost::asio::ip::make_address(argv[1]), std::atoi(argv[2]));
 
-        // Create a socket for the client
-        boost::asio::ip::tcp::socket socket(io_context);
+        // Create an active socket
+        boost::asio::ip::tcp::socket socket(ioCtx);
 
         // Connect to the server (blocking-operation)
-        socket.connect(endpoint);
+        socket.connect(serverEndpoint);
+        std::cout << "[CONNECTED TO] " << serverEndpoint << '\n';
 
-        std::cout << "Connected to server at " << endpoint << std::endl;
-
-        // Receive a message from the server
+        // Receive a message from ihe server
         char data[1024];
         size_t length = socket.read_some(boost::asio::buffer(data));
-        std::cout << "Received from server: " << std::string(data, length) << std::endl;
+        std::cout << "[RECEIVED] " << std::string(data, length) << '\n';
 
         // Send a message to the server
         std::string message = "Hello from client!";
         boost::asio::write(socket, boost::asio::buffer(message));
+        std::cout << "[SENT] " << message << '\n';
     }
-    catch (std::exception& e)
+    catch (const std::exception& e)
     {
-        std::cerr << "Error: " << e.what() << std::endl;
+        std::cerr << "Error: " << e.what() << '\n';
+        return EXIT_FAILURE;
     }
 
-    return 0;
+    return EXIT_SUCCESS;
 }

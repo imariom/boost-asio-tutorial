@@ -6,5 +6,5 @@ if(NOT Boost_FOUND)
     message(FATAL "C++ Boost libraries not installed")
 endif()
 
-add_executable(app main.cc)
-target_include_directories(app PRIVATE Boost::asio)
+add_executable(client main.cc)
+target_include_directories(client PRIVATE Boost::asio)
